@@ -18,6 +18,7 @@
 			</br>
 		</tr>
 	</c:forEach>
-
+	<h1>Hello ${uName}</h1>
+	<a href="logOutServlet">LogOut</a>
 </body>
 </html>

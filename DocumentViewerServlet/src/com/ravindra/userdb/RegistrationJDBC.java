@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import com.ravindra.common.ELibraryHelper;
 import com.ravindra.common.GetConnectionDetails;
@@ -21,10 +23,10 @@ public class RegistrationJDBC {
 		dbConObj = new GetConnectionDetails();
 		con = dbConObj.getConnection();
 		String insertQuery = "INSERT INTO public.\"USER_REGISTRATION\"(\"FIRST_NAME\", \"LAST_NAME\", \"USER_NAME\", "
-				+ "\"EMAIL\", \"GENDER\", \"BRANCH\", \"COLLEGE_CODE\", \"MOBILE_NUMBER\", \"USER_TYPE\", \"PASSWORD\", \"DOB\")	"
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "\"EMAIL\", \"GENDER\", \"BRANCH\", \"COLLEGE_CODE\", \"MOBILE_NUMBER\", \"USER_TYPE\", \"PASSWORD\", \"DOB\", \"CREATED_DATE_TIME\")	"
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		helper = new ELibraryHelper();
-		
+		Timestamp ts=new Timestamp(new Date().getTime());
 		ps = con.prepareStatement(insertQuery);
 		ps.setString(1, fName);
 		ps.setString(2, lName);
@@ -35,12 +37,14 @@ public class RegistrationJDBC {
 		ps.setString(7, collegeCode);
 		ps.setString(8, mobileNumber);
 		ps.setString(9, userType);
+		
 		ps.setString(10, helper.generateHash(password));
 		ps.setString(11, dob);
+		ps.setTimestamp(12,ts);
 		ps.executeQuery();
 	}
 
-	public boolean checkRegistration(String uName, String password) throws ClassNotFoundException, IOException, SQLException
+	public boolean isUserExist(String uName, String password) throws ClassNotFoundException, IOException, SQLException
 	{
 		String selectQuery = "SELECT * from public.\"USER_REGISTRATION\" where \"USER_NAME\"=? and \"PASSWORD\"=?";
 		dbConObj = new GetConnectionDetails();

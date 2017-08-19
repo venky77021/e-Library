@@ -10,12 +10,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.ravindra.files.PDFDocuments;
 import com.ravindra.userdb.RegistrationJDBC;
 
 public class LoginServlet extends HttpServlet {
-	private static final long serialVersionUID = -1919937606170088755L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4509079337286629364L;
 	private static final int BUFSIZE = 4096;
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -25,9 +29,9 @@ public class LoginServlet extends HttpServlet {
 		// request.setAttribute("fileName",
 		// files.substring(files.lastIndexOf("\\")+1));
 		RegistrationJDBC regObj = new RegistrationJDBC();
-		boolean checkInserted = false;
+		boolean isUserExist = false;
 		try {
-			checkInserted = regObj.checkRegistration(uName, password);
+			isUserExist = regObj.isUserExist(uName, password);
 			PDFDocuments obj = new PDFDocuments();
 			List<String> files = Arrays.asList(obj.getFileNames());
 			request.setAttribute("files", files);
@@ -50,9 +54,16 @@ public class LoginServlet extends HttpServlet {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		if (checkInserted) {
+		if (isUserExist) {
+			HttpSession session=request.getSession();
+			session.setAttribute("uName", uName);
 			RequestDispatcher rd = request.getRequestDispatcher("DisplayPDFFiles.jsp");
 			rd.forward(request, response);
+		}
+		else
+		{
+			String errorMessage="please enter valid credentials to login";
+			request.setAttribute("loginErrorMessage", errorMessage);
 		}
 	}
 }

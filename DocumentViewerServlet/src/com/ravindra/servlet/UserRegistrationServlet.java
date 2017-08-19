@@ -12,7 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.ravindra.userdb.RegistrationJDBC;
 
 public class UserRegistrationServlet extends HttpServlet {
-	private static final long serialVersionUID = 820876621107315019L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3192397722245191645L;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		response.setContentType("text/html");
@@ -36,7 +40,7 @@ public class UserRegistrationServlet extends HttpServlet {
 		}
 		boolean checkInserted = false;
 		try {
-			checkInserted = regObj.checkRegistration(uName, password);
+			checkInserted = regObj.isUserExist(uName, password);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}

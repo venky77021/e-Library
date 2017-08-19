@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>User Login Page</title>
+<title>Welcome Page</title>
 <style type="text/css">
 body {
 	background-color: lightblue;
@@ -10,6 +10,7 @@ body {
 </style>
 </head>
 <body>
+	<img alt="" src="logo.png"/>
 	<div style="font-size: 50px; font-weight: bold;" align="center">
 		Welcome to Venki e-Library</div>
 	</br>

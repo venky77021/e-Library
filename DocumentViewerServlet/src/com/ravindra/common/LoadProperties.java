@@ -12,7 +12,7 @@ public class LoadProperties {
 	public static Properties getProperties() {
 		InputStream is = null;
 		try {
-			is = new FileInputStream(new File("D://Class/DocumentViewerServlet/user.properties"));
+			is = new FileInputStream(new File("J://e-Library/e-Library/DocumentViewerServlet/user.properties"));
 			prop = new Properties();
 			prop.load(is);
 		} catch (IOException e) {

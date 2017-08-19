@@ -11,7 +11,11 @@ import com.ravindra.files.PDFDocuments;
 
 public class PDFDisplayServlet extends HttpServlet {
 
-	private static final long serialVersionUID = -1473087451496644101L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3391735260349181697L;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
 	{

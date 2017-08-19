@@ -39,6 +39,15 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 		<url-pattern>/uploadFile</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>LogOut</servlet-name>
+		<servlet-class>com.ravindra.servlet.LogoutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LogOut</servlet-name>
+		<url-pattern>/logOutServlet</url-pattern>
+	</servlet-mapping>
+
 	<welcome-file-list>
 		<welcome-file>Welcome.jsp</welcome-file>
 		<welcome-file>downloadfile.jsp</welcome-file>
