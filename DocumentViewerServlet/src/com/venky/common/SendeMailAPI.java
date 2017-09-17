@@ -10,7 +10,15 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class SendeMailAPI {
-	public void sendEmail(String registeredUser, String registeredEmail) {
+	
+	/**
+	 * This method send mail to the users
+	 * @param registeredUser
+	 * @param registeredEmail
+	 * @param subject
+	 * @param mse
+	 */
+	public void sendEmail(String registeredUser, String registeredEmail,String subject,String mse) {
 		Properties p = LoadProperties.getProperties();
 		Properties props = new Properties();
 		props.put(p.getProperty("mailSMTP"), p.getProperty("mailSMTPFlag"));
@@ -26,13 +34,13 @@ public class SendeMailAPI {
 
 		try {
 
-			Message message = new MimeMessage(session);
+			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(p.getProperty("emailUser")));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(registeredEmail));
-			message.setSubject("Welcome To e-Library");
-			message.setText("Thanks for Registering the e-Library" + "your user id " + registeredUser);
-
+			message.setSubject(subject);
+			message.setText(mse);
 			Transport.send(message);
+			
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}

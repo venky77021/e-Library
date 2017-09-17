@@ -7,18 +7,18 @@
 <title>User Login Page</title>
 </head>
 <body>
+	<%@ include file="LogOutHeader.jsp"%>
+	
 	<form action="uploadFile" method="post" enctype="multipart/form-data">
-		Select File to Upload : <input type="file" name="fileName" /></br> <input
+		Select File to Upload : <input type="file" name="fileName" /><br/> <input
 			type="submit" value="Upload">
 	</form>
-	
+
 	<c:forEach items="${files}" var="file">
 		<tr>
 			<a href="${file}">${file}</a>
-			</br>
 		</tr>
 	</c:forEach>
-	<h1>Hello ${uName}</h1>
-	<a href="logOutServlet">LogOut</a>
+
 </body>
 </html>

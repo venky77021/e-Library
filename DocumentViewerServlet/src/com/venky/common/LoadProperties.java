@@ -9,6 +9,10 @@ import java.util.Properties;
 public class LoadProperties {
 	private static Properties prop = null;
 
+	/**
+	 * This method returns the content in the specified in the user.properties file
+	 * @return
+	 */
 	public static Properties getProperties() {
 		InputStream is = null;
 		try {
@@ -21,7 +25,8 @@ public class LoadProperties {
 		return prop;
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		System.out.println(getProperties().getProperty("dcoRepository"));
-	}
+	}*/
 }
+

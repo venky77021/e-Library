@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.venky.files.PDFDocuments;
+import org.apache.log4j.Logger;
+
+import com.venky.common.ELibraryHelper;
 import com.venky.userdb.RegistrationJDBC;
 
 public class LoginServlet extends HttpServlet {
@@ -20,50 +22,48 @@ public class LoginServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -4509079337286629364L;
-	private static final int BUFSIZE = 4096;
-	
+	private Logger log = Logger.getLogger(LoginServlet.class);
+	private RequestDispatcher rd = null;
+
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		log.info("begin loginservlet doPost method");
 		response.setContentType("text/html");
 		String uName = request.getParameter("uName");
 		String password = request.getParameter("password");
-		// request.setAttribute("fileName",
-		// files.substring(files.lastIndexOf("\\")+1));
 		RegistrationJDBC regObj = new RegistrationJDBC();
+
 		boolean isUserExist = false;
 		try {
-			isUserExist = regObj.isUserExist(uName, password);
-			PDFDocuments obj = new PDFDocuments();
-			List<String> files = Arrays.asList(obj.getFileNames());
-			request.setAttribute("files", files);
-			/*File file = new File("D://SubjectDocuments/");
-			int length = 0;
-			ServletOutputStream outStream = response.getOutputStream();
-			response.setContentType("text/html");
-			response.setContentLength((int) file.length());
-			String fileName = (new File("D://SubjectDocuments/")).getName();
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-			
-			byte[] byteBuffer = new byte[BUFSIZE];
-			DataInputStream in = new DataInputStream(new FileInputStream(file));
+			isUserExist = regObj.loginUserExist(uName, password);
 
-			while ((in != null) && ((length = in.read(byteBuffer)) != -1)) {
-				outStream.write(byteBuffer, 0, length);
-			}
-			in.close();
-			outStream.close();*/
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+			log.error("exception occured in loginservlet" + e);
 		}
 		if (isUserExist) {
-			HttpSession session=request.getSession();
-			session.setAttribute("uName", uName);
-			RequestDispatcher rd = request.getRequestDispatcher("DisplayPDFFiles.jsp");
+			try {
+				if (regObj.checkUserType(uName).equals("student")) {
+					ELibraryHelper elh = new ELibraryHelper();
+					List<String> files = Arrays.asList(elh.getFileNames());
+					request.setAttribute("files", files);
+					HttpSession session = request.getSession();
+					session.setAttribute("uName", uName);
+					rd = request.getRequestDispatcher("viewFiles.jsp");
+					rd.forward(request, response);
+				} else {
+					rd = request.getRequestDispatcher("AdminManage.jsp");
+					rd.forward(request, response);
+
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			String errorMessage = "please enter valid credentials to login";
+			request.setAttribute("loginErrorMessage", errorMessage);
+			rd = request.getRequestDispatcher("Login.jsp");
 			rd.forward(request, response);
 		}
-		else
-		{
-			String errorMessage="please enter valid credentials to login";
-			request.setAttribute("loginErrorMessage", errorMessage);
-		}
+		log.info("end of the loginservlet doPost method");
 	}
 }
