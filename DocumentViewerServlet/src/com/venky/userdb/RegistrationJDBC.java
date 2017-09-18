@@ -18,7 +18,10 @@ public class RegistrationJDBC {
 	private PreparedStatement ps = null;
 	private ELibraryHelper helper = null;
 
-	/**This method is used to insert the user data into the database after verifying the otp
+	/**
+	 * This method is used to insert the user data into the database after
+	 * verifying the otp
+	 * 
 	 * @param fName
 	 * @param lName
 	 * @param uName
@@ -62,7 +65,9 @@ public class RegistrationJDBC {
 		ps.execute();
 	}
 
-	/**This method is used to check whether user exist or not
+	/**
+	 * This method is used to check whether user exist or not
+	 * 
 	 * @param uName
 	 * @param email
 	 * @return
@@ -88,6 +93,7 @@ public class RegistrationJDBC {
 
 	/**
 	 * This method is used to forgot the password
+	 * 
 	 * @param uName
 	 * @param email
 	 * @param otp
@@ -121,6 +127,7 @@ public class RegistrationJDBC {
 
 	/**
 	 * This method is used to find the user
+	 * 
 	 * @param ueMail
 	 * @return
 	 * @throws SQLException
@@ -142,6 +149,7 @@ public class RegistrationJDBC {
 
 	/**
 	 * This method is used in forgotpasswordservlet to find the user email
+	 * 
 	 * @param uName
 	 * @return
 	 * @throws SQLException
@@ -161,7 +169,9 @@ public class RegistrationJDBC {
 		return ueMail;
 	}
 
-	/**This method is used to verify the otp
+	/**
+	 * This method is used to verify the otp
+	 * 
 	 * @param uName
 	 * @return
 	 * @throws SQLException
@@ -182,7 +192,9 @@ public class RegistrationJDBC {
 
 	}
 
-	/**This method is used to update the password
+	/**
+	 * This method is used to update the password
+	 * 
 	 * @param passWord
 	 * @param uName
 	 * @param timestamp
@@ -200,7 +212,10 @@ public class RegistrationJDBC {
 
 	}
 
-	/**This method is used to check whether user exist in the data base or not to login
+	/**
+	 * This method is used to check whether user exist in the data base or not
+	 * to login
+	 * 
 	 * @param uName
 	 * @param password
 	 * @return
@@ -226,7 +241,9 @@ public class RegistrationJDBC {
 		return queryStatus;
 	}
 
-	/**This method is used to enter the data into the OTP_TB table
+	/**
+	 * This method is used to enter the data into the OTP_TB table
+	 * 
 	 * @param email
 	 * @param otp
 	 * @param uName
@@ -243,7 +260,9 @@ public class RegistrationJDBC {
 		ps.execute();
 	}
 
-	/**This method is used to check the otp
+	/**
+	 * This method is used to check the otp
+	 * 
 	 * @param otp
 	 * @param email
 	 * @return
@@ -257,7 +276,7 @@ public class RegistrationJDBC {
 		ps = con.prepareStatement(selectQuery);
 		ps.setString(1, email);
 		ResultSet rs = ps.executeQuery();
-		while(rs.next()) {
+		while (rs.next()) {
 			System.out.println("Otp matched....1 " + rs.getString("OTP_NUM"));
 			if (rs.getString("OTP_NUM").equals(otp)) {
 				queryStatus = true;
@@ -269,7 +288,9 @@ public class RegistrationJDBC {
 
 	}
 
-	/**This method is used to check the user type
+	/**
+	 * This method is used to check the user type
+	 * 
 	 * @param uName
 	 * @return
 	 * @throws SQLException
@@ -287,11 +308,58 @@ public class RegistrationJDBC {
 		}
 		return result;
 	}
-	/*
-	 * public static void main(String[] args) throws ClassNotFoundException,
-	 * IOException, SQLException { RegistrationJDBC rJDBC = new
-	 * RegistrationJDBC(); boolean result =
-	 * rJDBC.checkUserType("venky").equals("student");
-	 * System.out.println(result); }
-	 */
+
+	public String[] getDetails(String uName) throws SQLException {
+		String result[] = new String[9];
+		String selectQuery = "select * from public.\"USER_REGISTRATION\" where \"USER_NAME\"=?";
+		dbConObj = new GetConnectionDetails();
+		con = dbConObj.getConnection();
+		ps = con.prepareStatement(selectQuery);
+		ps.setString(1, uName);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			result[0] = rs.getString("FIRST_NAME");
+			result[1] = rs.getString("LAST_NAME");
+			result[2] = rs.getString("EMAIL");
+			result[3] = rs.getString("GENDER");
+			result[4] = rs.getString("BRANCH");
+			result[5] = rs.getString("COLLEGE_CODE");
+			result[6] = rs.getString("MOBILE_NUMBER");
+			result[7] = rs.getString("DOB");
+			result[8] = rs.getString("REGULATION");
+		}
+		return result;
+
+	}
+
+	public int updateUserProfile(String fName, String lName, String email, String gender, String branch,
+			String regu, String cName, String mobile, String dob, String uName) throws SQLException {
+		// TODO Auto-generated method stub
+		String updateQuery = "update public.\"USER_REGISTRATION\" SET \"FIRST_NAME\"=?, \"LAST_NAME\"=?, \"EMAIL\"=?, \"GENDER\"=?, \"BRANCH\"=?, \"COLLEGE_CODE\"=?, \"MOBILE_NUMBER\"=?,  \"DOB\"=?,  \"REGULATION\"=? "
+				+ " where \"USER_NAME\"=?";
+		int rs = 0;
+		dbConObj = new GetConnectionDetails();
+		con = dbConObj.getConnection();
+		ps = con.prepareStatement(updateQuery);
+		ps.setString(1, fName);
+		ps.setString(2, lName);
+		ps.setString(3, email);
+		ps.setString(4, gender);
+		ps.setString(5, branch);
+		ps.setString(6, cName);
+		ps.setString(7, mobile);
+		ps.setString(8, dob);
+		ps.setString(9, regu);
+		ps.setString(10, uName);
+		rs = ps.executeUpdate();
+		return rs;
+	}
+	public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException {
+		RegistrationJDBC rJDBC = new RegistrationJDBC();
+		String[] result=rJDBC.getDetails("venky");
+		for (String r : result) {
+			System.out.println(r);
+		}
+	}
+
 }

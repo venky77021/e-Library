@@ -26,7 +26,8 @@ public class LoadProperties {
 	}
 	
 	/*public static void main(String[] args) {
-		System.out.println(getProperties().getProperty("dcoRepository"));
+		String str = "file=13.+Regular+Expression.pdf";
+		System.out.println(str.substring(5));
 	}*/
 }
 

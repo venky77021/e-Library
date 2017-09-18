@@ -49,8 +49,8 @@ li a:hover:not (.active ) {
 
 	<ul>
 		<li><a  href="">Manage Users</a></li>
-		<li><a href="viewFiles.jsp">DownloadFiles</a></li>
-		<li><a href="Upload.jsp">Upload</a></li>
+		<li><a href="/DocumentViewerServlet/viewFiles.jsp">DownloadFiles</a></li>
+		<li><a href="/DocumentViewerServlet/Upload.jsp">Upload</a></li>
 	</ul>
 
 </body>

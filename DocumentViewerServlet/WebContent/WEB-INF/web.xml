@@ -91,6 +91,14 @@
 		<servlet-name>Upload</servlet-name>
 		<url-pattern>/upload</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>UserDetails</servlet-name>
+		<servlet-class>com.venky.servlet.GetUserDetailsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserDetails</servlet-name>
+		<url-pattern>/userDetails</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>Welcome.jsp</welcome-file>
 	</welcome-file-list>

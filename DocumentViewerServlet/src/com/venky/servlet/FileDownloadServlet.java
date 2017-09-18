@@ -21,6 +21,7 @@ public class FileDownloadServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String file = request.getParameter("f");
+		System.out.println(file);
 		File f = new File(file);
 		String filename = f.getName();
 		String type = getMimeType("file:" + file);

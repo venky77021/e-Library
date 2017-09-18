@@ -47,7 +47,7 @@ fieldset.mainFieldSetClass {
 			<fieldset class="changepasswordclass" style="width: 22%">
 				<div id="paswdId">
 					<fieldset class="inputTextBox">
-						<legend>Password(password lenght should be 8 only)</legend>
+						<legend>Password(password length should be 8 only)</legend>
 						<input
 							class="input-validation-error form-control text-box single-line"
 							data-val="true"

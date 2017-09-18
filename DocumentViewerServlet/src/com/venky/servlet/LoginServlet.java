@@ -2,8 +2,6 @@ package com.venky.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import com.venky.common.ELibraryHelper;
 import com.venky.userdb.RegistrationJDBC;
 
 public class LoginServlet extends HttpServlet {
@@ -42,12 +39,13 @@ public class LoginServlet extends HttpServlet {
 		if (isUserExist) {
 			try {
 				if (regObj.checkUserType(uName).equals("student")) {
-					ELibraryHelper elh = new ELibraryHelper();
+					/*ELibraryHelper elh = new ELibraryHelper();
 					List<String> files = Arrays.asList(elh.getFileNames());
-					request.setAttribute("files", files);
+					request.setAttribute("files", files);*/
 					HttpSession session = request.getSession();
 					session.setAttribute("uName", uName);
-					rd = request.getRequestDispatcher("viewFiles.jsp");
+//					rd = request.getRequestDispatcher("viewFiles.jsp");
+					rd = request.getRequestDispatcher("AfterLoginMenu.jsp");
 					rd.forward(request, response);
 				} else {
 					rd = request.getRequestDispatcher("AdminManage.jsp");
